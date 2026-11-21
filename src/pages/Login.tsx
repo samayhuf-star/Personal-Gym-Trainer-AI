@@ -98,7 +98,7 @@ const Login = () => {
               <div>
                 <h1 className="text-2xl font-bold">Check your email</h1>
                 <p className="text-sm text-muted-foreground mt-1">
-                  We sent a {codeLength}-digit code to <span className="text-foreground font-medium">{email.trim().toLowerCase()}</span>.
+                  We sent your {codeLength}-digit code to <span className="text-foreground font-medium">{email.trim().toLowerCase()}</span>.
                 </p>
               </div>
               <div className="space-y-2">

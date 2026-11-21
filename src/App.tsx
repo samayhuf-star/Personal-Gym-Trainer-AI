@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FitnessProvider } from "@/contexts/FitnessContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import Login from "./pages/Login";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Workout from "./pages/Workout";
@@ -16,8 +18,18 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Everything behind this gate needs a signed-in user.
+const AuthGate = ({ children }: { children: React.ReactNode }) => {
+  const { session, loading } = useAuth();
+  if (loading) return <div className="min-h-screen bg-background" />;
+  if (!session) return <Login />;
+  return <>{children}</>;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    <AuthProvider>
+    <AuthGate>
     <FitnessProvider>
       <TooltipProvider>
         <Toaster />
@@ -37,6 +49,8 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </FitnessProvider>
+    </AuthGate>
+    </AuthProvider>
   </QueryClientProvider>
 );
 

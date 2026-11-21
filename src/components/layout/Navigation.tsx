@@ -9,11 +9,13 @@ import {
   Sparkles,
   Menu,
   X,
-  Scan
+  Scan,
+  LogOut
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Logo } from './Logo';
+import { useAuth } from '@/contexts/AuthContext';
 
 const navItems = [
   { path: '/dashboard', label: 'Dashboard', icon: Home },
@@ -28,6 +30,7 @@ const navItems = [
 export const Navigation = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { email, signOut } = useAuth();
 
   return (
     <>
@@ -59,6 +62,9 @@ export const Navigation = () => {
                 </Link>
               );
             })}
+            <Button variant="ghost" size="icon" onClick={signOut} title={email ? `Sign out (${email})` : 'Sign out'} aria-label="Sign out">
+              <LogOut className="w-4 h-4" />
+            </Button>
           </div>
         </div>
       </nav>
@@ -101,6 +107,10 @@ export const Navigation = () => {
                 </Link>
               );
             })}
+            <Button variant="ghost" className="w-full justify-start gap-3" onClick={signOut}>
+              <LogOut className="w-5 h-5" />
+              Sign out{email ? ` (${email})` : ''}
+            </Button>
           </div>
         )}
       </nav>
